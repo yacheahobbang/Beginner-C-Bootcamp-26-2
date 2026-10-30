@@ -122,12 +122,12 @@ Stack은 `[stack]`, 이번 실습의 작은 동적 할당은 보통 `[heap]` 범
 
 ### GDB 확인 결과
 
-![Challenge 1 실행 결과](week05_challenge1.png)
-![Challenge 1 실행 결과](week05_challenge2.png)
-![Challenge 1 실행 결과](week05_challenge3.png)
-![Challenge 1 실행 결과](week05_challenge4.png)
-![Challenge 1 실행 결과](week05_challenge5.png)
-![Challenge 1 실행 결과](week05_challenge6.png)
+![Challenge 1 실행 결과](week05-challenge1.png)
+![Challenge 1 실행 결과](week05-challenge2.png)
+![Challenge 1 실행 결과](week05-challenge3.png)
+![Challenge 1 실행 결과](week05-challenge4.png)
+![Challenge 1 실행 결과](week05-challenge5.png)
+![Challenge 1 실행 결과](week05-challenge6.png)
 
 | 확인 대상 | 실제 주소 | 확인한 영역 |
 |---|---|---|
