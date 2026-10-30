@@ -131,57 +131,34 @@ Stack은 `[stack]`, 이번 실습의 작은 동적 할당은 보통 `[heap]` 범
 
 | 확인 대상 | 실제 주소 | 확인한 영역 |
 |---|---|---|
-| `initialized_global` | 직접 기록 | 직접 기록 |
-| `uninitialized_global` | 직접 기록 | 직접 기록 |
-| `local_var` | 직접 기록 | 직접 기록 |
-| `heap_var`가 가리키는 공간 | 직접 기록 | 직접 기록 |
-| 문자열 리터럴 | 직접 기록 | 직접 기록 |
-| `main()` | 직접 기록 | 직접 기록 |
+| `initialized_global` | `0x555555558010` | Data (`.data`) |
+| `uninitialized_global` | `0x555555558018` | BSS (`.bss`) |
+| `local_var` | `0x7fffffffdec4` | Stack (`[stack]`) |
+| `heap_var`가 가리키는 공간 | `0x555555559010` | Heap (`[heap]`) |
+| 문자열 리터럴 | `0x555555556004` | Read-only data (`.rodata`) |
 
 ## Challenge 2. 버퍼 오버플로우 실험
 
 ### 실습 코드
 
-파일명: `bof.c`
-
 ```c
 #include <stdio.h>
-
-/* 실습용: 현대 C 표준에서 제거된 gets의 선언 */
-extern char *gets(char *);
-
-void secret(void)
-{
+void secret() {
     printf("secret function called!\n");
 }
 
-void vuln(void)
-{
+void vuln() {
     char buf[16];
     gets(buf);
 }
 
-int main(void)
-{
+int main() {
     vuln();
     return 0;
-}
+}  
 ```
-
-`gets()`는 입력 길이를 제한하지 않으며, 버퍼 크기를 인자로 받지 않는다. 현대 C 표준에서는 제거되었으므로 실습 코드에서 명시적으로 선언했다.
-
-해당 함수를 제공하는 glibc 환경에서 실습할 수 있으며, 컴파일 시 위험한 함수라는 경고가 발생할 수 있다.
-
 `secret()`은 정의되어 있지만 호출하지 않으므로 정상 실행에서는 메시지가 출력되지 않는다. 긴 입력만으로 이 함수가 자동으로 호출되는 것은 아니다.
 
-### 컴파일 및 실행 방법
-
-```bash
-gcc -g -O0 -fno-stack-protector bof.c -o bof
-./bof
-```
-
-`-fno-stack-protector`는 스택 손상을 탐지하는 Stack Canary 보호 코드의 삽입을 비활성화한다. 모든 메모리 보호 기능을 해제하는 옵션은 아니다.
 
 ### 정상 입력과 긴 입력 비교
 
