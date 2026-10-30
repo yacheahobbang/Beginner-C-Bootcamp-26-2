@@ -40,15 +40,6 @@ int main(void)
 }
 ```
 
-`<stdio.h>`는 `printf()`와 `perror()`, `<stdlib.h>`는 `malloc()`과 `free()`의 선언을 제공한다.
-
-`%p`는 포인터 값을 출력하는 지정자이며, 이에 맞게 주소를 `void *`로 변환하여 전달한다.
-
-
-### 실행 결과
-
-> 각 변수의 주소를 출력한 실행 결과 캡처 추가
-
 ### 메모리 영역별 특징
 
 | 영역 | 저장되는 내용 | 실습 코드의 예 |
@@ -80,14 +71,11 @@ int *heap_var = malloc(sizeof *heap_var);
 | `literal` | 문자열 리터럴의 시작 주소 |
 | `&literal` | 지역 포인터 변수 `literal` 자체의 주소 |
 
-따라서 Heap 주소를 확인하려면 `&heap_var`가 아니라 `heap_var`를 출력해야 한다.
-
 
 GDB에서 다음 명령을 실행한다.
 
 ```gdb
 start
-list
 ```
 
 소스에서 `free(heap_var);`의 줄 번호를 확인하고, 해당 줄에 중단점을 설정한 다음 `continue`로 진행한다.
@@ -95,7 +83,7 @@ list
 예를 들어 해당 줄이 26번이면 다음과 같다.
 
 ```gdb
-break memory_layout.c:26
+break challenge1.c:26
 continue
 ```
 
@@ -120,6 +108,7 @@ Stack은 `[stack]`, 이번 실습의 작은 동적 할당은 보통 `[heap]` 범
 
 `.data`와 `.bss`는 동일한 쓰기 가능한 매핑에 포함될 수 있으므로, 이 둘을 구분하려면 `info files`의 섹션 주소 범위를 함께 확인한다.
 
+
 | 주소 | 비교할 범위 |
 |---|---|
 | `&initialized_global` | `.data` |
@@ -133,7 +122,12 @@ Stack은 `[stack]`, 이번 실습의 작은 동적 할당은 보통 `[heap]` 범
 
 ### GDB 확인 결과
 
-> 변수 주소, `info proc mappings`, `info files`의 캡처 추가
+![Challenge 1 실행 결과](week05_challenge1.png)
+![Challenge 1 실행 결과](week05_challenge2.png)
+![Challenge 1 실행 결과](week05_challenge3.png)
+![Challenge 1 실행 결과](week05_challenge4.png)
+![Challenge 1 실행 결과](week05_challenge5.png)
+![Challenge 1 실행 결과](week05_challenge6.png)
 
 | 확인 대상 | 실제 주소 | 확인한 영역 |
 |---|---|---|
